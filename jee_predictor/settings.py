@@ -129,3 +129,42 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
+# ========================
+# RAILWAY PRODUCTION SETTINGS
+# ========================
+import os
+import dj_database_url
+
+# Security
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app', '*']
+
+# Database - Railway MySQL auto-config
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
+
+# Static files (CSS/JS/images)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Whitenoise for static files in production
+if 'whitenoise' in [app for app in INSTALLED_APPS]:
+    pass
+else:
+    INSTALLED_APPS += ['whitenoise.middleware.WhiteNoiseMiddleware']
+
+MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware'] + MIDDLEWARE
+
+# Login redirects
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
