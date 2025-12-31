@@ -1,0 +1,48 @@
+{% extends "predictor/base.html" %}
+
+{% block title %}JEE Percentile Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>JEE Percentile Predictor</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="marks">Enter JEE Main marks (0-300):</label>
+        <input type="number" id="marks" name="marks" min="0" max="300" required>
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="OPEN" {% if category == "OPEN" %}selected{% endif %}>General (OPEN)</option>
+            <option value="EWS" {% if category == "EWS" %}selected{% endif %}>GEN-EWS</option>
+            <option value="OBC-NCL" {% if category == "OBC-NCL" %}selected{% endif %}>OBC-NCL</option>
+            <option value="SC" {% if category == "SC" %}selected{% endif %}>SC</option>
+            <option value="ST" {% if category == "ST" %}selected{% endif %}>ST</option>
+        </select>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="Gender-Neutral" {% if gender == "Gender-Neutral" %}selected{% endif %}>Gender-Neutral</option>
+            <option value="Female-only including Supernumerary"
+                    {% if gender == "Female-only including Supernumerary" %}selected{% endif %}>
+                Female-only
+            </option>
+        </select>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if result %}
+        <div class="result">
+            <p><strong>Marks:</strong> {{ result.marks }}</p>
+            <p><strong>Approx Percentile:</strong> {{ result.percentile }}</p>
+            <p><strong>Approx Rank Range:</strong> {{ result.min_rank }} – {{ result.max_rank }}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "predictor/base.html" %}
+
+{% block title %}Verify OTP{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Verify OTP</h1>
+
+    {% if info %}
+    <div class="info">{{ info }}</div>
+    {% endif %}
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+    {% if success %}
+    <div class="success">{{ success }}</div>
+    {% endif %}
+
+    {% if not success %}
+    <p>Enter the OTP sent to {{ phone }} (currently dummy: 123456).</p>
+    <form method="post">
+        {% csrf_token %}
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+    {% else %}
+    <p>You can now go back to the predictor or colleges page and refresh to see all institutes.</p>
+    {% endif %}
+</div>
+{% endblock %}

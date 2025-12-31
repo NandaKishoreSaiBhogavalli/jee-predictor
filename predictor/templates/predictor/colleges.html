@@ -1,0 +1,84 @@
+{% extends "predictor/base.html" %}
+
+{% block title %}Browse JEE Colleges | JEE Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Browse Colleges by Rank</h1>
+    <form method="get">
+        <label for="rank">Enter JEE Main rank:</label>
+        <input type="number" id="rank" name="rank" min="1" required value="{{ rank|default:'' }}">
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="OPEN" {% if category == "OPEN" %}selected{% endif %}>General (OPEN)</option>
+            <option value="EWS" {% if category == "EWS" %}selected{% endif %}>GEN-EWS</option>
+            <option value="OBC-NCL" {% if category == "OBC-NCL" %}selected{% endif %}>OBC-NCL</option>
+            <option value="SC" {% if category == "SC" %}selected{% endif %}>SC</option>
+            <option value="ST" {% if category == "ST" %}selected{% endif %}>ST</option>
+        </select>
+
+        <!-- GENDER KEPT HERE AS REQUESTED -->
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="Gender-Neutral" {% if gender == "Gender-Neutral" %}selected{% endif %}>Gender-Neutral</option>
+            <option value="Female-only including Supernumerary" {% if gender == "Female-only including Supernumerary" %}selected{% endif %}>
+                Female-only
+            </option>
+        </select>
+
+        <button type="submit">Find Colleges</button>
+    </form>
+
+    {% if cutoffs %}
+    <div class="cutoffs-section">
+        <h2>🎓 Colleges for Rank {{ rank }}</h2>
+
+        <div class="institute-list">
+            {% for institute, branches in cutoffs_grouped %}
+            <div class="institute-card">
+                <button type="button"
+                        class="institute-header"
+                        onclick="toggleInstitute('col-{{ forloop.counter0 }}')">
+                    <span>{{ institute }}</span>
+                    <span class="chevron" id="chevron-col-{{ forloop.counter0 }}">▼</span>
+                </button>
+
+                <div class="branches-panel" id="panel-col-{{ forloop.counter0 }}">
+                    <table class="cutoffs-table">
+                        <thead>
+                            <tr>
+                                <th>Program</th>
+                                <th>Quota</th>
+                                <th>Rank Range</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in branches %}
+                            <tr>
+                                <td>{{ c.program_name }}</td>
+                                <td>{{ c.seat_type }}</td>
+                                <td>{{ c.opening_rank }} - {{ c.closing_rank }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if has_more_institutes and not can_see_all %}
+        <div class="unlock-box">
+            <p>Only a few colleges are shown. Fill a quick form and verify OTP to see all possible institutes.</p>
+            <a href="{% url 'start_lead' %}?source=colleges">Unlock all colleges</a>
+        </div>
+        {% endif %}
+    </div>
+    {% elif rank %}
+    <div class="cutoffs-section">
+        <p class="no-cutoffs">No colleges found for this rank. Try another rank or change filters.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
