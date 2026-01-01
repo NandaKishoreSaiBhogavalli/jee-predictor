@@ -158,10 +158,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Whitenoise for static files in production
-if 'whitenoise' in [app for app in INSTALLED_APPS]:
-    pass
-else:
-    INSTALLED_APPS += ['whitenoise.middleware.WhiteNoiseMiddleware']
+# Whitenoise for static files in production
+if 'whitenoise' not in INSTALLED_APPS:
+    INSTALLED_APPS += ['whitenoise']
+
 
 MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware'] + MIDDLEWARE
 
