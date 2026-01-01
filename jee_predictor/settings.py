@@ -121,6 +121,8 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+WHITENOISE_USE_FINDERS = True
+
 # ========================
 # DEFAULTS
 # ========================
