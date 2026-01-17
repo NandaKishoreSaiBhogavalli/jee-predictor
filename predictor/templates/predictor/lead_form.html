@@ -1,0 +1,80 @@
+{% extends "predictor/base.html" %}
+
+{% block title %}Unlock Colleges{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Unlock All Colleges</h1>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" id="unlockForm">
+        {% csrf_token %}
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">Phone number:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="state">State:</label>
+        <select id="state" name="state" required>
+            <option value="">-- Select State --</option>
+            <option>Andhra Pradesh</option>
+            <option>Arunachal Pradesh</option>
+            <option>Assam</option>
+            <option>Bihar</option>
+            <option>Chhattisgarh</option>
+            <option>Goa</option>
+            <option>Gujarat</option>
+            <option>Haryana</option>
+            <option>Himachal Pradesh</option>
+            <option>Jharkhand</option>
+            <option>Karnataka</option>
+            <option>Kerala</option>
+            <option>Madhya Pradesh</option>
+            <option>Maharashtra</option>
+            <option>Manipur</option>
+            <option>Meghalaya</option>
+            <option>Mizoram</option>
+            <option>Nagaland</option>
+            <option>Odisha</option>
+            <option>Punjab</option>
+            <option>Rajasthan</option>
+            <option>Sikkim</option>
+            <option>Tamil Nadu</option>
+            <option>Telangana</option>
+            <option>Tripura</option>
+            <option>Uttar Pradesh</option>
+            <option>Uttarakhand</option>
+            <option>West Bengal</option>
+            <option>Delhi</option>
+            <option>Jammu & Kashmir</option>
+            <option>Ladakh</option>
+            <option>Other</option>
+        </select>
+
+        <label for="pass_year">Intermediate pass year:</label>
+        <select id="pass_year" name="pass_year" required>
+            <option value="">-- Select Year --</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+        </select>
+
+        <!-- ✅ TERMS & CONDITIONS CHECKBOX ADDED HERE -->
+        <div class="checkbox-container">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms" class="terms-label">
+                I agree to <a href="https://www.shiksha.com/shikshaHelp/ShikshaHelp/termCondition" target="_blank">Terms & Conditions</a> 
+                and <a href="https://www.shiksha.com/shikshaHelp/ShikshaHelp/privacyPolicy" target="_blank">Privacy Policy</a>
+            </label>
+        </div>
+
+        <!-- ✅ SEND OTP BUTTON DISABLED UNTIL CHECKED -->
+        <button type="submit" id="sendOtpBtn" class="disabled">Send OTP</button>
+    </form>
+</div>
+{% endblock %}

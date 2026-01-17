@@ -1,0 +1,29 @@
+{% extends "predictor/base.html" %}
+
+{% block title %}JEE Percentile Predictor 2026 | Accurate Rank & College Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>JEE Percentile Predictor 2026</h1>
+    <p>Predict your JEE Main percentile, rank, and find possible colleges using actual JoSAA cut-off data.</p>
+
+    <ul>
+        <li>Instant percentile and approximate AIR based on your marks.</li>
+        <li>300+ colleges: IITs, NITs, IIITs, GFTIs from latest JoSAA data.</li>
+        <li>Filter by category, gender, and institute type.</li>
+    </ul>
+
+    <div style="margin-top: 1.5rem;">
+        <a href="{% url 'reset_unlock' %}" class="btn btn-primary">
+            <button type="button">Start Percentile Prediction</button>
+        </a>
+    </div>
+
+    <div style="margin-top: 0.75rem;">
+      <a href="{% url 'colleges' %}">
+          <button type="button">Browse Colleges by Rank</button>
+      </a>
+    </div>
+
+</div>
+{% endblock %}
